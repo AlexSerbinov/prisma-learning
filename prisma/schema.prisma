@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model with basic information
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  age       Int?
+  isActive  Boolean  @default(true)
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts     Post[]
+  profile   Profile?
+  comments  Comment[]
+
+  @@map("users")
+}
+
+// User profile with additional details
+model Profile {
+  id       Int     @id @default(autoincrement())
+  bio      String?
+  avatar   String?
+  website  String?
+  location String?
+  
+  // Foreign key
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+// Posts model
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String?
+  published   Boolean  @default(false)
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign key
+  authorId    Int
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  comments    Comment[]
+  categories  PostCategory[]
+
+  @@map("posts")
+}
+
+// Categories for posts
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  color String @default("#808080")
+
+  // Relations
+  posts PostCategory[]
+
+  @@map("categories")
+}
+
+// Many-to-many relation between Posts and Categories
+model PostCategory {
+  id         Int      @id @default(autoincrement())
+  postId     Int
+  categoryId Int
+  createdAt  DateTime @default(now())
+
+  post     Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, categoryId])
+  @@map("post_categories")
+}
+
+// Comments model
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign keys
+  authorId  Int
+  postId    Int
+
+  // Relations
+  author    User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+// Enum for user roles
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+} 

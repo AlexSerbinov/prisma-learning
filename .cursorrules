@@ -1,0 +1,79 @@
+# Prisma Learning Project - Cursor Rules
+
+## Project Context
+This is a comprehensive Prisma ORM learning project with PostgreSQL, designed for Node.js Middle Developer interview preparation. The project includes a complete database schema, Express API, and extensive learning materials.
+
+## Key Patterns & Preferences
+
+### Database & Prisma Patterns
+- **Schema Design**: Always use camelCase for field names in Prisma schema (e.g., `authorId`, `createdAt`)
+- **Relations**: Implement all three types - 1:1 (User-Profile), 1:N (User-Posts), N:M (Post-Category via junction table)
+- **Cascade Deletes**: Use `onDelete: Cascade` for maintaining data integrity
+- **Raw SQL**: When using raw SQL, check actual column names in PostgreSQL (may remain camelCase, not snake_case)
+
+### API Development Patterns
+- **Error Handling**: Always handle Prisma-specific errors (P2002 for unique constraint, P2025 for not found)
+- **Pagination**: Use `skip` and `take` with `orderBy` for consistent results
+- **Include vs Select**: Use `include` for relations, `select` for specific fields to optimize performance
+- **Transactions**: Use `prisma.$transaction()` for atomic operations involving multiple models
+
+### Code Organization
+- **File Structure**: Keep examples in `/examples/`, API in `/src/`, schema in `/prisma/`
+- **Comments**: Write detailed comments explaining Prisma concepts for learning purposes
+- **Error Messages**: Provide clear, educational error messages that help understand what went wrong
+
+### Learning-Focused Approach
+- **Progressive Complexity**: Start with basic CRUD, then move to complex queries, transactions, and raw SQL
+- **Real-world Examples**: Use realistic data models (User, Post, Comment) that mirror actual applications
+- **Interview Preparation**: Include examples that demonstrate understanding of ORM concepts, performance, and best practices
+
+### Development Workflow
+- **Environment**: Always use Docker for PostgreSQL to ensure consistency
+- **Seeding**: Use Faker.js for realistic test data generation
+- **Testing**: Test both Prisma queries and API endpoints
+- **Documentation**: Maintain comprehensive documentation for learning purposes
+
+### Performance Considerations
+- **Query Optimization**: Demonstrate both efficient and inefficient query patterns
+- **Batch Operations**: Use `createMany`, `updateMany` for bulk operations
+- **Connection Management**: Let Prisma handle connection pooling in development
+- **Indexing**: Understand when and how to add database indexes
+
+### Common Pitfalls to Avoid
+- **Column Naming**: Always verify actual column names in PostgreSQL when writing raw SQL
+- **Client Generation**: Remember to run `prisma generate` after schema changes
+- **Environment Variables**: Ensure DATABASE_URL is properly loaded before Prisma client initialization
+- **Docker Timing**: Wait for PostgreSQL container to be fully ready before connecting
+
+### Interview-Ready Concepts
+- **Schema Design**: Explain relationship types and when to use each
+- **Query Optimization**: Demonstrate understanding of N+1 problems and solutions
+- **Error Handling**: Show proper handling of database errors and edge cases
+- **Transactions**: Explain ACID properties and when transactions are necessary
+- **Raw SQL Integration**: Know when to use raw SQL vs Prisma queries
+
+### Debugging Strategies
+- **Prisma Logs**: Use `log: ['query', 'info', 'warn', 'error']` for debugging
+- **Database Tools**: Leverage pgAdmin and Prisma Studio for data inspection
+- **Error Codes**: Memorize common Prisma error codes and their meanings
+- **Query Analysis**: Use PostgreSQL EXPLAIN for performance analysis
+
+## Project-Specific Notes
+- **Database**: PostgreSQL 15 running on localhost:5432
+- **Admin Tools**: pgAdmin on localhost:8080, Prisma Studio via `npm run db:studio`
+- **API Server**: Express on localhost:3000 with comprehensive endpoints
+- **Learning Materials**: Complete examples in `/examples/` directory with detailed explanations
+
+## Memory Bank Integration
+This project uses a comprehensive Memory Bank system for documentation. Always update relevant memory bank files when making significant changes:
+- `activeContext.md` for current work focus
+- `progress.md` for completed features (append, don't overwrite)
+- `resolvedProblems.md` for complex issues solved
+- `systemPatterns.md` for architectural decisions
+
+## Quick Commands
+- `npm run dev` - Start development server with auto-reload
+- `npm run db:studio` - Open Prisma Studio for data visualization
+- `npm run db:seed` - Populate database with test data
+- `node examples/basic-crud.js` - Run basic learning examples
+- `node examples/interview-questions.js` - Run interview preparation examples 

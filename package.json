@@ -1,0 +1,32 @@
+{
+  "name": "prisma-learning",
+  "version": "1.0.0",
+  "description": "Learning Prisma ORM with PostgreSQL for Node.js interview preparation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "node prisma/seed.js",
+    "db:reset": "prisma migrate reset --force && npm run db:seed"
+  },
+  "keywords": ["prisma", "postgresql", "node.js", "learning"],
+  "author": "Learning Developer",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.1",
+    "nodemon": "^3.0.2",
+    "@faker-js/faker": "^8.3.1"
+  }
+} 
